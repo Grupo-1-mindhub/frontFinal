@@ -64,8 +64,7 @@ export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
-
-
+  const [accountId, setAccountId] = useState(1)
 
 
   const initialize = async () => {
@@ -130,6 +129,7 @@ export const AuthProvider = (props) => {
       email: response2.data.email,
       token:token,
       accounts: response2.data.accounts,
+      accountId :1,
       currentAccountId: response2.data.accounts[0] != null ? response2.data.accounts[0].id : 0
     };
 
