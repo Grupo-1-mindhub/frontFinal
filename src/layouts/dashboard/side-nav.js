@@ -17,6 +17,7 @@ import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import UserSelect from 'src/components/selectUsers';
 import { useAuth } from 'src/hooks/use-auth';
 
 export const SideNav = (props) => {
@@ -95,15 +96,11 @@ export const SideNav = (props) => {
                 color="neutral.400"
                 variant="body2"
               >
+                <UserSelect />
                 $25000
               </Typography>
             </div>
-            <SvgIcon
-              fontSize="small"
-              sx={{ color: 'neutral.500' }}
-            >
-              <ChevronUpDownIcon />
-            </SvgIcon>
+
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
@@ -152,6 +149,7 @@ export const SideNav = (props) => {
             color="neutral.100"
             variant="subtitle2"
           >
+            Accenture {/* aca poner el nombre del usuario registrado*/}
           </Typography>
         </Box>
       </Box>
