@@ -60,18 +60,18 @@ export const SideNav = (props) => {
             <Logo />
           </Box>
           <Box>
-          <Typography
-                color="inherit"
-                variant="subtitle1"
-              >
-                {user.name}
-              </Typography>
-              <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                {user.email}
-              </Typography>
+            <Typography
+              color="inherit"
+              variant="subtitle1"
+            >
+              {user.name}
+            </Typography>
+            <Typography
+              color="neutral.400"
+              variant="body2"
+            >
+              {user.email}
+            </Typography>
           </Box>
           <Box
             sx={{
@@ -85,20 +85,20 @@ export const SideNav = (props) => {
               p: '12px'
             }}
           >
-   
-              <Typography
-                color="inherit"
-                variant="subtitle1"
-              >
-                Current Account
-              </Typography>
-              <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                <UserSelect />
-              </Typography>
-            
+
+            <Typography
+              color="inherit"
+              variant="subtitle1"
+            >
+              Current Account
+            </Typography>
+            <Typography
+              color="neutral.400"
+              variant="body2"
+            >
+              <UserSelect />
+            </Typography>
+
 
           </Box>
         </Box>

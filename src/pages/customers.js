@@ -87,7 +87,7 @@ const Page = () => {
     {
       value: 4,
       label: 'Services',
-      
+
     },
     {
       value: 5,
@@ -127,7 +127,7 @@ const Page = () => {
     borderRadius: 2,
     p: 4,
   };
-  
+
   const handleCreate = async () => {
     const newTransaction = {
       description,
@@ -191,62 +191,62 @@ const Page = () => {
                 </Stack>
               </Stack>
               <div>
-              <Button variant="contained" startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )} onClick={handleOpen}>Add</Button>
-<Modal
-  open={open}
-  onClose={handleClose}
->
-<Box sx={style}>
-                <h2>New Transaction</h2>
-      <TextField
-        id="outlined-basic"
-        label="Description"
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        id="outlined-basic"
-        label="Amount"
-        fullWidth       
-        margin="normal"
-      />
-      <TextField
-        id="outlined-select-currency"
-        select
-        label="Category"
-        defaultValue="Select your Category"
-        fullWidth
-        margin="normal"
-      >
-        {currencies.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-      <TextField
-        id="outlined-select-currency"
-        select
-        label="Payment Method"
-        defaultValue="Select your method"
-        fullWidth
-        margin="normal"
-      >
-        {payment.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-      <Button onClick={handleCreate} variant="contained" fullWidth color="primary">
-        Create
-      </Button>
-    </Box>
-</Modal>
+                <Button variant="contained" startIcon={(
+                  <SvgIcon fontSize="small">
+                    <PlusIcon />
+                  </SvgIcon>
+                )} onClick={handleOpen}>Add</Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <Box sx={style}>
+                    <h2>New Transaction</h2>
+                    <TextField
+                      id="outlined-basic"
+                      label="Description"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      label="Amount"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      id="outlined-select-currency"
+                      select
+                      label="Category"
+                      defaultValue="Select your Category"
+                      fullWidth
+                      margin="normal"
+                    >
+                      {currencies.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <TextField
+                      id="outlined-select-currency"
+                      select
+                      label="Payment Method"
+                      defaultValue="Select your method"
+                      fullWidth
+                      margin="normal"
+                    >
+                      {payment.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <Button onClick={handleCreate} variant="contained" fullWidth color="primary">
+                      Create
+                    </Button>
+                  </Box>
+                </Modal>
               </div>
             </Stack>
             <CustomersSearch />
