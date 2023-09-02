@@ -18,11 +18,15 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 import UserSelect from 'src/components/selectUsers';
+import { useAuth } from 'src/hooks/use-auth';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
+  const auth = useAuth()
+  const user = auth.user
 
   const content = (
     <Scrollbar
@@ -55,6 +59,20 @@ export const SideNav = (props) => {
           >
             <Logo />
           </Box>
+          <Box>
+          <Typography
+                color="inherit"
+                variant="subtitle1"
+              >
+                {user.name}
+              </Typography>
+              <Typography
+                color="neutral.400"
+                variant="body2"
+              >
+                {user.email}
+              </Typography>
+          </Box>
           <Box
             sx={{
               alignItems: 'center',
@@ -72,13 +90,14 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                Felipe
+                Santander Rio
               </Typography>
               <Typography
                 color="neutral.400"
                 variant="body2"
               >
                 <UserSelect />
+                $25000
               </Typography>
             </div>
 
