@@ -17,11 +17,16 @@ import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import UserSelect from 'src/components/selectUsers';
+import { useAuth } from 'src/hooks/use-auth';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
+  const auth = useAuth()
+  const user = auth.user
 
   const content = (
     <Scrollbar
@@ -54,6 +59,20 @@ export const SideNav = (props) => {
           >
             <Logo />
           </Box>
+          <Box>
+          <Typography
+                color="inherit"
+                variant="subtitle1"
+              >
+                {user.name}
+              </Typography>
+              <Typography
+                color="neutral.400"
+                variant="body2"
+              >
+                {user.email}
+              </Typography>
+          </Box>
           <Box
             sx={{
               alignItems: 'center',
@@ -66,26 +85,21 @@ export const SideNav = (props) => {
               p: '12px'
             }}
           >
-            <div>
+   
               <Typography
                 color="inherit"
                 variant="subtitle1"
               >
-                Devias 
+                Current Account
               </Typography>
               <Typography
                 color="neutral.400"
                 variant="body2"
               >
-                Production
+                <UserSelect />
               </Typography>
-            </div>
-            <SvgIcon
-              fontSize="small"
-              sx={{ color: 'neutral.500' }}
-            >
-              <ChevronUpDownIcon />
-            </SvgIcon>
+            
+
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
@@ -134,7 +148,7 @@ export const SideNav = (props) => {
             color="neutral.100"
             variant="subtitle2"
           >
-            Hola {/* aca poner el nombre del usuario registrado*/}
+            Accenture {/* aca poner el nombre del usuario registrado*/}
           </Typography>
         </Box>
       </Box>

@@ -19,7 +19,7 @@ const GastosProvider = ({ children }) => {
     return (
         <GastosContext.Provider
             value={{
-                
+
                 curretAccount,
                 setCurretAccount,
                 setCurrentUser

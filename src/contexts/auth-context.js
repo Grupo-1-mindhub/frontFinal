@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useReducer, useRef, useState } fr
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
@@ -66,6 +65,9 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
 
+
+
+
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) {
@@ -83,7 +85,7 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      
+
       dispatch({
         type: HANDLERS.INITIALIZE,
       });
@@ -105,10 +107,10 @@ export const AuthProvider = (props) => {
   const signIn = async (email, password) => {
 
     const response = await axios.post('http://localhost:8001/api/auth/login', {
-    email: email,
-    password: password
+      email: email,
+      password: password
     })
- 
+
     try {
       window.sessionStorage.setItem('authenticated', 'true');
     } catch (err) {
@@ -116,18 +118,23 @@ export const AuthProvider = (props) => {
     }
 
     const token = response.data.token
-        const headers = {
-        'Authorization': `Bearer ${token}`
+    const headers = {
+      'Authorization': `Bearer ${token}`
     };
-    const response2 = await axios.get("http://localhost:8001/api/clients/current", { headers } )
+    const response2 = await axios.get("http://localhost:8001/api/clients/current", { headers })
     console.log(response2)
     const user = {
       id: response2.data.id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
       name: response2.data.firstName + " " + response2.data.lastName,
       email: response2.data.email,
-      token:token
+      token:token,
+      accounts: response2.data.accounts,
+      currentAccountId: response2.data.accounts[0] != null ? response2.data.accounts[0].id : 0
     };
+
+    console.log("Se muestran accounts: ")
+    console.log(user)
 
     dispatch({
       type: HANDLERS.SIGN_IN,
@@ -135,8 +142,13 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+  const signUp = async (name, lastName, email, password) => {
+    axios.post('http://localhost:8001/api/Clients', {
+      firstName: name,
+      lastName: lastName,
+      email: email,
+      password: password
+    })
   };
 
   const signOut = () => {
