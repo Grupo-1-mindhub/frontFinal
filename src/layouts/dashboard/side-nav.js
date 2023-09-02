@@ -17,6 +17,7 @@ import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import UserSelect from 'src/components/selectUsers';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
@@ -71,21 +72,16 @@ export const SideNav = (props) => {
                 color="inherit"
                 variant="subtitle1"
               >
-                Devias 
+                Felipe
               </Typography>
               <Typography
                 color="neutral.400"
                 variant="body2"
               >
-                Production
+                <UserSelect />
               </Typography>
             </div>
-            <SvgIcon
-              fontSize="small"
-              sx={{ color: 'neutral.500' }}
-            >
-              <ChevronUpDownIcon />
-            </SvgIcon>
+
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
