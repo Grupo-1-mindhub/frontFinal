@@ -10,6 +10,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
+import useGastos from 'src/helpers/useGastos';
 
 const now = new Date();
 
@@ -188,12 +189,28 @@ const Page = () => {
     []
   );
 
+  const { curretAccount, setCurretAccount } = useGastos()
+
   const handleRowsPerPageChange = useCallback(
     (event) => {
       setRowsPerPage(event.target.value);
     },
     []
   );
+
+
+  const cambiarInfo = (e) => {
+    e.preventDefault()
+    setCurretAccount(
+      {
+        user: "hola",
+        accounts: {
+          cuenta: 1,
+          cuenta: 2
+        }
+      })
+
+  }
 
   return (
     <>
@@ -218,33 +235,13 @@ const Page = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  {curretAccount.user}
                 </Typography>
                 <Stack
                   alignItems="center"
                   direction="row"
                   spacing={1}
                 >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Export
-                  </Button>
                 </Stack>
               </Stack>
               <div>
@@ -254,6 +251,7 @@ const Page = () => {
                       <PlusIcon />
                     </SvgIcon>
                   )}
+                  onClick={(e) => cambiarInfo(e)}
                   variant="contained"
                 >
                   Add
