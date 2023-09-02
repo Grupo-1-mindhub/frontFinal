@@ -20,7 +20,7 @@ export default function useSelect() {
     ];
 
     return (
-        <div>
+        
             <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="demo-simple-select-filled-label" style={{ color: '#ffff' }}>Bank</InputLabel>
                 <Select
@@ -40,16 +40,13 @@ export default function useSelect() {
                                     {tarjeta.nombre}
                                 </Box>
                                 <Box>
-                                    <Divider/>
-                                </Box>
-                                <Box>
-                                    {tarjeta.monto}
+                                    ${tarjeta.monto}
                                 </Box>
                             </Box>
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
-        </div>
+        
     );
 }

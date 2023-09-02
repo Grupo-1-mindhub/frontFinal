@@ -85,21 +85,20 @@ export const SideNav = (props) => {
               p: '12px'
             }}
           >
-            <div>
+   
               <Typography
                 color="inherit"
                 variant="subtitle1"
               >
-                Santander Rio
+                Current Account
               </Typography>
               <Typography
                 color="neutral.400"
                 variant="body2"
               >
                 <UserSelect />
-                $25000
               </Typography>
-            </div>
+            
 
           </Box>
         </Box>
