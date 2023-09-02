@@ -106,9 +106,10 @@ const Page = () => {
         setTransactionData([]);
       }
     }
-    fetchTransactionsData();
+
     fetchData();
     fetchDataCategorys();
+    fetchTransactionsData();
   }, [auth.user.token]);
 
   return(<>

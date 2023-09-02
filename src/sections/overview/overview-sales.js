@@ -8,7 +8,8 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  SvgIcon
+  SvgIcon,
+  Typography
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Chart } from 'src/components/chart';
@@ -128,13 +129,20 @@ export const OverviewSales = (props) => {
         title="Income/Budget"
       />
       <CardContent>
-        <Chart
-          height={350}
-          options={chartOptions}
-          series={chartSeries}
-          type="bar"
-          width="100%"
-        />
+        {chartSeries.length > 0 ? ( // Verificar si hay datos en chartSeries
+          <Chart
+            height={350}
+            options={chartOptions}
+            series={chartSeries}
+            type="bar"
+            width="100%"
+          />
+        ) : (
+          // Mostrar mensaje "No data" si chartSeries está vacío
+          <Typography variant="body2" sx={{ p: 2, textAlign: 'center' }}>
+            No data
+          </Typography>
+        )}
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
