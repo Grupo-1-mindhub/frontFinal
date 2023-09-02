@@ -127,8 +127,13 @@ export const AuthProvider = (props) => {
       id: response2.data.id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
       name: response2.data.firstName + " " + response2.data.lastName,
-      email: response2.data.email
+      email: response2.data.email,
+      accounts: response2.data.accounts,
+      currentAccountId: response2.data.accounts[0] != null ? response2.data.accounts[0].id : 0
     };
+
+    console.log("Se muestran accounts: ")
+    console.log(user)
 
     dispatch({
       type: HANDLERS.SIGN_IN,
