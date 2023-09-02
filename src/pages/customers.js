@@ -11,6 +11,12 @@ import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
 import useGastos from 'src/helpers/useGastos';
+import * as React from 'react';
+import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import { borderRadius, flexbox } from '@mui/system';
+import { useAuth } from 'src/hooks/use-auth';
 
 const now = new Date();
 
@@ -41,6 +47,14 @@ const Page = () => {
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const auth = useAuth();
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('Select your Category');
+  const [transactions, setTransactions] = useState([]);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -57,20 +71,102 @@ const Page = () => {
     },
     []
   );
+  const currencies = [
+    {
+      value: 1,
+      label: 'General',
+    },
+    {
+      value: 2,
+      label: 'Food',
+    },
+    {
+      value: 3,
+      label: 'Entertainment',
+    },
+    {
+      value: 4,
+      label: 'Services',
+      
+    },
+    {
+      value: 5,
+      label: 'Market',
+    },
+    {
+      value: 6,
+      label: 'Transport',
+    },
+  ];
+
+  const payment = [
+    {
+      value: 1,
+      label: 'Cash',
+    },
+    {
+      value: 2,
+      label: 'Debit',
+    },
+    {
+      value: 3,
+      label: 'Credit',
+    }
+  ];
 
 
-  const cambiarInfo = (e) => {
-    e.preventDefault()
-    setCurretAccount(
-      {
-        user: "", /*aca va la info del usuario x ej Transactions of Nico */
-        accounts: {
-          cuenta: 1,
-          cuenta: 2
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 450,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    borderRadius: 2,
+    p: 4,
+  };
+  const handleCreate = () => {
+    
+    if (description.trim() !== '' && amount.trim() !== '' && category !== 'Select your Category') {
+      
+      const newTransaction = {
+        description,
+        amount,
+        category,
+        payment,
+      };
+
+      setTransactions([...transactions, newTransaction]);
+      setDescription('');
+      setAmount('');
+      setCategory('Select your Category');
+    }
+    console.log(transactions)    
+  };
+
+  const handleTransactionCreated = async (newTransaction) => {
+    try {
+        const response = await fetch("http://localhost:8001/api/clients/current/transactions", {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newTransaction)
+        });
+
+        if (response.ok) {
+            const createdTransaction = await response.json();
+            setTransactions([...transactions, createdTransaction]);
+        } else {
+            console.error("Error creating transaction");
         }
-      })
-
-  }
+    } catch (error) {
+        console.error("Error creating transaction:", error);
+    }
+};
 
   return (
     <>
@@ -105,17 +201,62 @@ const Page = () => {
                 </Stack>
               </Stack>
               <div>
-                <Button
-                  startIcon={(
+              <Button variant="contained" startIcon={(
                     <SvgIcon fontSize="small">
                       <PlusIcon />
                     </SvgIcon>
-                  )}
-                  onClick={(e) => cambiarInfo(e)}
-                  variant="contained"
-                >
-                  Add
-                </Button>
+                  )} onClick={handleOpen}>Add</Button>
+<Modal
+  open={open}
+  onClose={handleClose}
+>
+<Box sx={style}>
+                <h2>New Transaction</h2>
+      <TextField
+        id="outlined-basic"
+        label="Description"
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        id="outlined-basic"
+        label="Amount"
+        fullWidth       
+        margin="normal"
+      />
+      <TextField
+        id="outlined-select-currency"
+        select
+        label="Category"
+        defaultValue="Select your Category"
+        fullWidth
+        margin="normal"
+      >
+        {currencies.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+      <TextField
+        id="outlined-select-currency"
+        select
+        label="Payment Method"
+        defaultValue="Select your method"
+        fullWidth
+        margin="normal"
+      >
+        {payment.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+      <Button onClick={handleCreate} variant="contained" fullWidth color="primary">
+        Create
+      </Button>
+    </Box>
+</Modal>
               </div>
             </Stack>
             <CustomersSearch />
