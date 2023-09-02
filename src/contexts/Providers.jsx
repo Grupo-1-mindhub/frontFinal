@@ -6,7 +6,7 @@ const GastosProvider = ({ children }) => {
 
 
     const [curretAccount, setCurretAccount] = useState({
-        user: "12sdfs",
+        user: "Your Transactions",
         accounts: {
             cuenta: 1,
             cuenta: 2
