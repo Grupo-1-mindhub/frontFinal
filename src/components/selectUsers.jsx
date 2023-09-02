@@ -5,24 +5,29 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Box } from '@mui/system';
 import { Divider } from '@mui/material';
+import { useAuth } from 'src/hooks/use-auth';
+import { useEffect } from 'react';
 
 
 export default function useSelect() {
+    const auth = useAuth();
     const [age, setAge] = React.useState('');
 
     const handleChange = (event) => {
+        //console.log(auth.user.currentAccountId)
         setAge(event.target.value);
+        auth.user.currentAccountId = age;
+        console.log(age)
     };
-    const tarjetas = [
-        { nombre: "Santander", monto: 1000 },
-        { nombre: "UALA", monto: 750 },
-        { nombre: "cuenta dni", monto: 500 }
-    ];
+    
+    auth.user.currentAccountId = 123
+
 
     return (
         
-            <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-filled-label" style={{ color: '#ffff' }}>Bank</InputLabel>
+        <div>
+            <FormControl variant="filled" sx={{ m: 1, minWidth: '100%', textAlign: 'center' }}>
+                <InputLabel id="demo-simple-select-filled-label" style={{ color: '#ffff' }}>Current Account</InputLabel>
                 <Select
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
@@ -33,20 +38,23 @@ export default function useSelect() {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    {tarjetas.map((tarjeta) => (
-                        <MenuItem key={tarjeta.nombre} value={tarjeta.nombre}>
+                    {auth.user.accounts.map((account) => (
+                        <MenuItem key={account.description} value={account.id}>
                             <Box sx={{display:'flex',flexDirection:'column'}}>
                                 <Box>
-                                    {tarjeta.nombre}
+                                    {account.description}
                                 </Box>
                                 <Box>
-                                    ${tarjeta.monto}
+                                </Box>
+                                <Box>
+                                    ${account.balance}
                                 </Box>
                             </Box>
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
+        </div>
         
     );
 }
