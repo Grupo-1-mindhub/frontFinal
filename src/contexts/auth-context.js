@@ -125,7 +125,8 @@ export const AuthProvider = (props) => {
       id: response2.data.id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
       name: response2.data.firstName + " " + response2.data.lastName,
-      email: response2.data.email
+      email: response2.data.email,
+      token:token
     };
 
     dispatch({

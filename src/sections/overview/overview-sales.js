@@ -8,14 +8,16 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  SvgIcon
+  SvgIcon,
+  Typography
 } from '@mui/material';
 import { alpha, useTheme } from '@mui/material/styles';
 import { Chart } from 'src/components/chart';
 
 const useChartOptions = () => {
   const theme = useTheme();
-
+  const redColor = '#EF5350'; // Rojo suave
+  const greenColor = '#66BB6A'; // Verde suave
   return {
     chart: {
       background: 'transparent',
@@ -24,7 +26,7 @@ const useChartOptions = () => {
         show: false
       }
     },
-    colors: [theme.palette.primary.main, alpha(theme.palette.primary.main, 0.25)],
+    colors: [greenColor, redColor],
     dataLabels: {
       enabled: false
     },
@@ -94,7 +96,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => (value > 0 ? `${value}` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary
@@ -124,16 +126,23 @@ export const OverviewSales = (props) => {
             Sync
           </Button>
         )}
-        title="Sales"
+        title="Income/Budget"
       />
       <CardContent>
-        <Chart
-          height={350}
-          options={chartOptions}
-          series={chartSeries}
-          type="bar"
-          width="100%"
-        />
+        {chartSeries.length > 0 ? ( // Verificar si hay datos en chartSeries
+          <Chart
+            height={350}
+            options={chartOptions}
+            series={chartSeries}
+            type="bar"
+            width="100%"
+          />
+        ) : (
+          // Mostrar mensaje "No data" si chartSeries está vacío
+          <Typography variant="body2" sx={{ p: 2, textAlign: 'center' }}>
+            No data
+          </Typography>
+        )}
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
@@ -153,7 +162,7 @@ export const OverviewSales = (props) => {
   );
 };
 
-OverviewSales.protoTypes = {
+OverviewSales.propTypes = {
   chartSeries: PropTypes.array.isRequired,
   sx: PropTypes.object
 };
