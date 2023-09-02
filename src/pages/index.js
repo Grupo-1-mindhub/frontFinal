@@ -8,12 +8,110 @@ import { OverviewSales } from 'src/sections/overview/overview-sales';
 import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-customers';
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
-import EstadisticasCategorias from 'src/graphic/EstadisticasCategorias';
-import GastosAnuales from 'src/graphic/GastosAnuales';
+import { useAuth } from 'src/hooks/use-auth';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+
 const now = new Date();
 
-const Page = () => (
-  <>
+const Page = () => {
+  const [IncomeData, setIncomeData] = useState([]);
+  const [BudgetData, setBudgetData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [categoryLabels, setCategoryLabels] = useState([]);
+  const [TransactionsData, setTransactionData]= useState([]);
+  const auth = useAuth();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const token = auth.user.token;
+        const headers = {
+          'Authorization': `Bearer ${token}`
+        };
+        const response = await axios.get('http://localhost:8001/api/clients/accounts/statistics/anual', { headers });
+        const negativeTransactions = response.data.negativeTransactionsByMonth;
+        const positiveTransactions = response.data.positiveTransactionsByMonth;
+
+        const newGastos = [];
+        const newIngresos = [];
+
+        for (let i = 0; i < 12; i++) {
+          const transaction = negativeTransactions.find(trans => trans.month === i + 1);
+          newGastos[i] = transaction ? -transaction.amount : 0;
+        }
+
+        for (let i = 0; i < 12; i++) {
+          const transaction = positiveTransactions.find(trans => trans.month === i + 1);
+          newIngresos[i] = transaction ? transaction.amount : 0;
+        }
+
+        setBudgetData(newGastos);
+        setIncomeData(newIngresos);
+      } catch (error) {
+        console.log(error);
+        setBudgetData([]);
+        setIncomeData([]);
+      }
+    }
+    async function fetchDataCategorys(){
+      
+      try {
+        const token = auth.user.token;
+        const headers = {
+          'Authorization': `Bearer ${token}`
+        };
+        const response = await axios.get('http://localhost:8001/api/clients/accounts/statistics/category', { headers });
+        const groupedTransactions = response.data.groupedTransactions;
+        const categories = [
+          "GENERAL",
+          "FOOD",
+          "ENTERTAINMENT",
+          "SERVICES",
+          "SUPERMARKET",
+          "TRANSPORT"
+        ];
+        const expenses = [];
+   
+        for (let i = 0; i < 6; i++) {
+          const transaction = groupedTransactions.find(trans => trans.category === i + 1);
+          expenses[i] = transaction ? -transaction.amount : 0;
+        }
+        
+        const newData = categories.map((category, index) => ({
+          name: category,
+          value: expenses[index]
+        }));
+        setCategoryData(expenses)
+        setCategoryLabels(categories)
+      } catch (error) {
+        console.log(error);
+        setCategoryData([]);
+        setCategoryLabels([])
+      }
+    }
+    async function fetchTransactionsData(){
+      try{
+        const token = auth.user.token;
+        const headers = {
+          'Authorization': `Bearer ${token}`
+        };
+        const response = await axios.get('http://localhost:8001/api/clients/current/account/1/transactions', { headers });
+        setTransactionData(response.data);
+
+      }
+      catch(error){
+        console.log(error);
+        setTransactionData([]);
+      }
+    }
+    fetchTransactionsData();
+    fetchData();
+    fetchDataCategorys();
+  }, [auth.user.token]);
+
+  return(<>
     <Head>
       <title>
         Overview 
@@ -30,6 +128,7 @@ const Page = () => (
         <Grid
           container
           spacing={3}
+          sx={{width:'100%'}}
         >
           <Grid
             xs={12}
@@ -63,21 +162,41 @@ const Page = () => (
           >
             <OverviewTotalProfit
               sx={{ height: '100%' }}
-              value="$15k" /*este valor va eelque carga el usuario*/
+              value="$15k"
             />
           </Grid>
           <Grid
             xs={12}
             lg={8}
           >
-            <GastosAnuales/>
+            <OverviewSales
+              chartSeries={[
+                {
+                  name: 'Income',
+                  data: IncomeData
+                },
+                {
+                  name: 'Expences',
+                  data: BudgetData
+                }
+              ]}
+              sx={{ height: '100%' }}
+            />
           </Grid>
           <Grid
             xs={12}
             md={6}
             lg={4}
+            sx={{width:'100%'}}
           >
-            <EstadisticasCategorias/>
+            <OverviewTraffic
+              chartSeries={categoryData}
+              labels={categoryLabels}
+              sx={{ 
+                height: '100%',
+                maxWidth:'100%'
+              }}
+            />
           </Grid>
           <Grid
             xs={12}
@@ -85,50 +204,7 @@ const Page = () => (
             lg={8}
           >
             <OverviewLatestOrders
-              orders={[
-                {
-                  id: 'f69f88012978187a6c12897f',
-                  ref: 'DEV1049',
-                  amount: 30.5,
-                  createdAt: 1555016400000,
-                  Description: 'test'
-                },
-                {
-                  id: '9eaa1c7dd4433f413c308ce2',
-                  ref: 'DEV1048',
-                  amount: 25.1,
-                  createdAt: 1555016400000,
-                  Description: 'test'
-                },
-                {
-                  id: '01a5230c811bd04996ce7c13',
-                  ref: 'DEV1047',
-                  amount: 10.99,
-                  createdAt: 1554930000000,
-                  Description: 'test'
-                },
-                {
-                  id: '1f4e1bd0a87cea23cdb83d18',
-                  ref: 'DEV1046',
-                  amount: 96.43,
-                  createdAt: 1554757200000,
-                  Description: 'test'
-                },
-                {
-                  id: '9f974f239d29ede969367103',
-                  ref: 'DEV1045',
-                  amount: 32.54,
-                  createdAt: 1554670800000,
-                  Description: 'test'
-                },
-                {
-                  id: 'ffc83c1560ec2f66a1c05596',
-                  ref: 'DEV1044',
-                  amount: 16.76,
-                  createdAt: 1554670800000,
-                  Description: 'test'
-                }
-              ]}
+              orders={TransactionsData}
               sx={{ height: '100%' }}
             />
           </Grid>
@@ -137,6 +213,7 @@ const Page = () => (
     </Box>
   </>
 );
+}
 
 Page.getLayout = (page) => (
   <DashboardLayout>
@@ -144,4 +221,4 @@ Page.getLayout = (page) => (
   </DashboardLayout>
 );
 
-export default Page;
+export default Page;

@@ -7,25 +7,35 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Stack,
+  Grid,
   SvgIcon,
   Typography,
   useTheme
 } from '@mui/material';
 import { Chart } from 'src/components/chart';
 
-const useChartOptions = (labels) => {
+// Definir una paleta de colores
+const colorPalette = [
+  '#F94144', // Rojo
+  '#F3722C', // Naranja
+  '#F8961E', // Amarillo
+  '#FDCB58', // Amarillo claro
+  '#277DA1', // Azul
+  '#43AA8B', // Verde
+  '#577590', // Azul pálido
+  '#6B4226', // Marrón
+  '#9A8C98', // Gris
+  '#D9BF77'  // Beige
+];
+
+const useChartOptions = (labels, colors) => {
   const theme = useTheme();
 
   return {
     chart: {
       background: 'transparent'
     },
-    colors: [
-      theme.palette.primary.main,
-      theme.palette.success.main,
-      theme.palette.warning.main
-    ],
+    colors,
     dataLabels: {
       enabled: false
     },
@@ -82,11 +92,22 @@ const iconMap = {
 
 export const OverviewTraffic = (props) => {
   const { chartSeries, labels, sx } = props;
-  const chartOptions = useChartOptions(labels);
+
+  // Verificar si la cantidad de colores en la paleta coincide con la cantidad de categorías
+  if (chartSeries.length > colorPalette.length) {
+    throw new Error('No hay suficientes colores en la paleta para todas las categorías.');
+  }
+
+  // Seleccionar colores de la paleta para las categorías
+  const selectedColors = colorPalette.slice(0, chartSeries.length);
+  const chartOptions = useChartOptions(labels, selectedColors);
+
+  // Calcular la suma de todos los valores en chartSeries
+  const total = chartSeries.reduce((acc, value) => acc + value, 0);
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Traffic Source" />
+      <CardHeader title="Category Info" />
       <CardContent>
         <Chart
           height={300}
@@ -95,42 +116,43 @@ export const OverviewTraffic = (props) => {
           type="donut"
           width="100%"
         />
-        <Stack
-          alignItems="center"
-          direction="row"
-          justifyContent="center"
-          spacing={2}
-          sx={{ mt: 2 }}
-        >
+        <Grid container spacing={2} justifyContent="center" sx={{ mt: 2 }}>
           {chartSeries.map((item, index) => {
             const label = labels[index];
+            const percentage = ((item / total) * 100).toFixed(2);
+            const categoryColor = selectedColors[index];
 
             return (
-              <Box
-                key={label}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}
-              >
-                {iconMap[label]}
-                <Typography
-                  sx={{ my: 1 }}
-                  variant="h6"
+              <Grid item key={label}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center'
+                  }}
                 >
-                  {label}
-                </Typography>
-                <Typography
-                  color="text.secondary"
-                  variant="subtitle2"
-                >
-                  {item}%
-                </Typography>
-              </Box>
+                  <div
+                    style={{
+                      backgroundColor: categoryColor,
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: '50%',
+                      marginBottom: '8px'
+                    }}
+                  />
+                  {iconMap[label]}
+                  <Typography variant="h6" sx={{ mt: 1 }}>
+                    {label}
+                  </Typography>
+                  <Typography color="text.secondary" variant="subtitle2">
+                    {percentage}%
+                  </Typography>
+                </Box>
+              </Grid>
             );
           })}
-        </Stack>
+        </Grid>
       </CardContent>
     </Card>
   );

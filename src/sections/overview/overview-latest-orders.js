@@ -23,6 +23,14 @@ const statusMap = {
   delivered: 'success',
   refunded: 'error'
 };
+const categoriesMap=[
+  "GENERAL",
+  "FOOD",
+  "ENTERTAINMENT",
+  "SERVICES",
+  "SUPERMARKET",
+  "TRANSPORT"
+];
 
 export const OverviewLatestOrders = (props) => {
   const { orders = [], sx } = props;
@@ -41,6 +49,9 @@ export const OverviewLatestOrders = (props) => {
                 <TableCell>
                   Description
                 </TableCell>
+                <TableCell>
+                  Category
+                </TableCell>
                 <TableCell sortDirection="desc">
                   Date
                 </TableCell>
@@ -49,7 +60,7 @@ export const OverviewLatestOrders = (props) => {
             </TableHead>
             <TableBody>
               {orders.map((order) => {
-                const createdAt = format(order.createdAt, 'dd/MM/yyyy');
+                const createdAt = format(new Date(order.creationDate), 'yyyy/MM/dd');
 
                 return (
                   <TableRow
@@ -57,10 +68,13 @@ export const OverviewLatestOrders = (props) => {
                     key={order.id}
                   >
                     <TableCell>
-                      {order.amount}
+                      ${order.amount}
                     </TableCell>
                     <TableCell>
-                      {order.Description}
+                      {order.description}
+                    </TableCell>
+                    <TableCell>
+                      {categoriesMap[order.category]}
                     </TableCell>
                     <TableCell>
                       {createdAt}

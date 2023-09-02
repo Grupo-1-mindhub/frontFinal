@@ -15,7 +15,8 @@ import { Chart } from 'src/components/chart';
 
 const useChartOptions = () => {
   const theme = useTheme();
-
+  const redColor = '#EF5350'; // Rojo suave
+  const greenColor = '#66BB6A'; // Verde suave
   return {
     chart: {
       background: 'transparent',
@@ -24,7 +25,7 @@ const useChartOptions = () => {
         show: false
       }
     },
-    colors: [theme.palette.primary.main, alpha(theme.palette.primary.main, 0.25)],
+    colors: [greenColor, redColor],
     dataLabels: {
       enabled: false
     },
@@ -94,7 +95,7 @@ const useChartOptions = () => {
     },
     yaxis: {
       labels: {
-        formatter: (value) => (value > 0 ? `${value}K` : `${value}`),
+        formatter: (value) => (value > 0 ? `${value}` : `${value}`),
         offsetX: -10,
         style: {
           colors: theme.palette.text.secondary
@@ -124,7 +125,7 @@ export const OverviewSales = (props) => {
             Sync
           </Button>
         )}
-        title="Sales"
+        title="Income/Budget"
       />
       <CardContent>
         <Chart
@@ -153,7 +154,7 @@ export const OverviewSales = (props) => {
   );
 };
 
-OverviewSales.protoTypes = {
+OverviewSales.propTypes = {
   chartSeries: PropTypes.array.isRequired,
   sx: PropTypes.object
 };
