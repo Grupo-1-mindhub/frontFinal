@@ -27,10 +27,12 @@ const Page = () => {
     async function fetchData() {
       try {
         const token = auth.user.token;
+        const id=auth.user.accountId
         const headers = {
           'Authorization': `Bearer ${token}`
         };
-        const response = await axios.get('http://localhost:8001/api/clients/accounts/statistics/anual', { headers });
+        
+        const response = await axios.get(`http://localhost:8001/api/clients/accounts/${id}/statistics/anual`, { headers });
         const negativeTransactions = response.data.negativeTransactionsByMonth;
         const positiveTransactions = response.data.positiveTransactionsByMonth;
 
@@ -59,10 +61,12 @@ const Page = () => {
 
       try {
         const token = auth.user.token;
+        const id=auth.user.accountId;
         const headers = {
           'Authorization': `Bearer ${token}`
         };
-        const response = await axios.get('http://localhost:8001/api/clients/accounts/statistics/category', { headers });
+        console.log(id)
+        const response = await axios.get(`http://localhost:8001/api/clients/accounts/${id}/statistics/category`, { headers });
         const groupedTransactions = response.data.groupedTransactions;
         const categories = [
           "GENERAL",
@@ -91,13 +95,14 @@ const Page = () => {
         setCategoryLabels([])
       }
     }
-    async function fetchTransactionsData() {
-      try {
+    async function fetchTransactionsData(id){
+      try{
         const token = auth.user.token;
+        const id=auth.user.accountId
         const headers = {
           'Authorization': `Bearer ${token}`
         };
-        const response = await axios.get('http://localhost:8001/api/clients/current/account/1/transactions', { headers });
+        const response = await axios.get(`http://localhost:8001/api/clients/current/account/${id}/transactions`, { headers });
         setTransactionData(response.data);
 
       }
@@ -110,7 +115,7 @@ const Page = () => {
     fetchData();
     fetchDataCategorys();
     fetchTransactionsData();
-  }, [auth.user.token]);
+  }, [auth.user.token,auth.user.accountId]);
 
   return (<>
     <Head>
