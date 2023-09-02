@@ -6,4 +6,8 @@ const ApexChart = dynamic(() => import('react-apexcharts'), {
   loading: () => null
 });
 
+
+
+
+
 export const Chart = styled(ApexChart)``;
