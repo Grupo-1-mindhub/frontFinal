@@ -130,7 +130,7 @@ export const SideNav = (props) => {
             color="neutral.100"
             variant="subtitle2"
           >
-            Hola {/* aca poner el nombre del usuario registrado*/}
+            Accenture {/* aca poner el nombre del usuario registrado*/}
           </Typography>
         </Box>
       </Box>

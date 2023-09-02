@@ -4,6 +4,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Box } from '@mui/system';
+import { Divider } from '@mui/material';
+
 
 export default function useSelect() {
     const [age, setAge] = React.useState('');
@@ -11,7 +13,6 @@ export default function useSelect() {
     const handleChange = (event) => {
         setAge(event.target.value);
     };
-
     const tarjetas = [
         { nombre: "Santander", monto: 1000 },
         { nombre: "UALA", monto: 750 },
@@ -34,7 +35,17 @@ export default function useSelect() {
                     </MenuItem>
                     {tarjetas.map((tarjeta) => (
                         <MenuItem key={tarjeta.nombre} value={tarjeta.nombre}>
-                            {tarjeta.nombre}
+                            <Box sx={{display:'flex',flexDirection:'column'}}>
+                                <Box>
+                                    {tarjeta.nombre}
+                                </Box>
+                                <Box>
+                                    <Divider/>
+                                </Box>
+                                <Box>
+                                    {tarjeta.monto}
+                                </Box>
+                            </Box>
                         </MenuItem>
                     ))}
                 </Select>
