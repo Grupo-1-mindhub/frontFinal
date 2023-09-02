@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -81,16 +83,10 @@ export const AuthProvider = (props) => {
     }
 
     if (isAuthenticated) {
-      const user = {
-        id: '5e86809283e28b96d2d38537',
-        avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Anika Visser',
-        email: 'anika.visser@devias.io'
-      };
+      
 
       dispatch({
         type: HANDLERS.INITIALIZE,
-        payload: user
       });
     } else {
       dispatch({
@@ -107,42 +103,30 @@ export const AuthProvider = (props) => {
     []
   );
 
-  const skip = () => {
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
-    }
-
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user
-    });
-  };
-
   const signIn = async (email, password) => {
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
-    }
 
+    const response = await axios.post('http://localhost:8001/api/auth/login', {
+    email: email,
+    password: password
+    })
+ 
     try {
       window.sessionStorage.setItem('authenticated', 'true');
     } catch (err) {
       console.error(err);
     }
 
+    const token = response.data.token
+        const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    const response2 = await axios.get("http://localhost:8001/api/clients/current", { headers } )
+    console.log(response2)
     const user = {
-      id: '5e86809283e28b96d2d38537',
+      id: response2.data.id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+      name: response2.data.firstName + " " + response2.data.lastName,
+      email: response2.data.email
     };
 
     dispatch({
@@ -168,7 +152,6 @@ export const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         ...state,
-        skip,
         signIn,
         signUp,
         signOut,
