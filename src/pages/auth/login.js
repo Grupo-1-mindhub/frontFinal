@@ -25,7 +25,7 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'email@example.com',
+      email: 'test@test.com',
       password: 'Password123!',
       submit: null
     },
