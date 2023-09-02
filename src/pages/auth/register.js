@@ -14,6 +14,7 @@ const Page = () => {
     initialValues: {
       email: '',
       name: '',
+      lastName: '',
       password: '',
       submit: null
     },
@@ -27,6 +28,11 @@ const Page = () => {
         .string()
         .max(255)
         .required('Name is required'),
+      lastName: Yup
+        .string()
+        .max(255)
+        .required('LastName is required')
+      ,
       password: Yup
         .string()
         .max(255)
@@ -34,7 +40,8 @@ const Page = () => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signUp(values.email, values.name, values.password);
+        console.log(values)
+        await auth.signUp(values.name, values.lastName, values.email, values.password);
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -105,6 +112,16 @@ const Page = () => {
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
+                />
+                <TextField
+                  error={!!(formik.touched.lastName && formik.errors.lastName)}
+                  fullWidth
+                  helperText={formik.touched.lastName && formik.errors.lastName}
+                  label="lastName"
+                  name="lastName"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  value={formik.values.lastName}
                 />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}

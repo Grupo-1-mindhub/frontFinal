@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useReducer, useRef, useState } fr
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
@@ -134,8 +133,13 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+  const signUp = async (name, lastName, email, password) => {
+    axios.post('http://localhost:8001/api/Clients', {
+      firstName: name,
+      lastName: lastName,
+      email: email,
+      password: password
+    })
   };
 
   const signOut = () => {
