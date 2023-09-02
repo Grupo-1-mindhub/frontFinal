@@ -84,7 +84,6 @@ export const AuthProvider = (props) => {
 
     if (isAuthenticated) {
       
-
       dispatch({
         type: HANDLERS.INITIALIZE,
       });

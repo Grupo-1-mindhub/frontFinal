@@ -21,7 +21,7 @@ export const OverviewTotalCustomers = (props) => {
               color="text.secondary"
               variant="overline"
             >
-              Total Customers
+              Total Transactions
             </Typography>
             <Typography variant="h4">
               {value}
@@ -64,12 +64,6 @@ export const OverviewTotalCustomers = (props) => {
                 {difference}%
               </Typography>
             </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
           </Stack>
         )}
       </CardContent>

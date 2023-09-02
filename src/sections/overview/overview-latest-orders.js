@@ -29,24 +29,22 @@ export const OverviewLatestOrders = (props) => {
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Latest Orders" />
+      <CardHeader title="Transactions History" />
       <Scrollbar sx={{ flexGrow: 1 }}>
         <Box sx={{ minWidth: 800 }}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Order
+                  Amount
                 </TableCell>
                 <TableCell>
-                  Customer
+                  Description
                 </TableCell>
                 <TableCell sortDirection="desc">
                   Date
                 </TableCell>
-                <TableCell>
-                  Status
-                </TableCell>
+                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -59,18 +57,13 @@ export const OverviewLatestOrders = (props) => {
                     key={order.id}
                   >
                     <TableCell>
-                      {order.ref}
+                      {order.amount}
                     </TableCell>
                     <TableCell>
-                      {order.customer.name}
+                      {order.Description}
                     </TableCell>
                     <TableCell>
                       {createdAt}
-                    </TableCell>
-                    <TableCell>
-                      <SeverityPill color={statusMap[order.status]}>
-                        {order.status}
-                      </SeverityPill>
                     </TableCell>
                   </TableRow>
                 );
@@ -91,7 +84,7 @@ export const OverviewLatestOrders = (props) => {
           size="small"
           variant="text"
         >
-          View all
+          View all {/* este boton que lleve a la parte de TRANSACTIONS o sacarlo*/}
         </Button>
       </CardActions>
     </Card>

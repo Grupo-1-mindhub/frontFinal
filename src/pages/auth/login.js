@@ -73,7 +73,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Expense Manager
+          Login 
         </title>
       </Head>
       <Box
