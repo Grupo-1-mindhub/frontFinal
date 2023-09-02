@@ -84,7 +84,7 @@ export const AuthProvider = (props) => {
       const user = {
         id: '5e86809283e28b96d2d38537',
         avatar: '/assets/avatars/avatar-anika-visser.png',
-        name: 'Anika Visser',
+        name: 'Nicolas Cazorla',
         email: 'anika.visser@devias.io'
       };
 

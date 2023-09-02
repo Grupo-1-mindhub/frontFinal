@@ -64,12 +64,7 @@ export const OverviewBudget = (props) => {
                 {difference}%
               </Typography>
             </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
+            
           </Stack>
         )}
       </CardContent>
