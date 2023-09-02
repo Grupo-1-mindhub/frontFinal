@@ -27,7 +27,7 @@ const Page = () => {
     async function fetchData() {
       try {
         const token = auth.user.token;
-        const id=auth.user.accountId
+        const id=auth.user.currentAccountId
         const headers = {
           'Authorization': `Bearer ${token}`
         };
@@ -61,7 +61,7 @@ const Page = () => {
       
       try {
         const token = auth.user.token;
-        const id=auth.user.accountId;
+        const id=auth.user.currentAccountId;
         const headers = {
           'Authorization': `Bearer ${token}`
         };
@@ -98,7 +98,7 @@ const Page = () => {
     async function fetchTransactionsData(id){
       try{
         const token = auth.user.token;
-        const id=auth.user.accountId
+        const id=auth.user.currentAccountId
         const headers = {
           'Authorization': `Bearer ${token}`
         };
@@ -115,7 +115,7 @@ const Page = () => {
     fetchData();
     fetchDataCategorys();
     fetchTransactionsData();
-  }, [auth.user.token,auth.user.accountId]);
+  }, [auth.user.token,auth.user.currentAccountId]);
 
   return(<>
     <Head>
