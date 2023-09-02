@@ -127,46 +127,36 @@ const Page = () => {
     borderRadius: 2,
     p: 4,
   };
-  const handleCreate = () => {
-    
-    if (description.trim() !== '' && amount.trim() !== '' && category !== 'Select your Category') {
-      
-      const newTransaction = {
-        description,
-        amount,
-        category,
-        payment,
-      };
+  
+  const handleCreate = async () => {
+    const newTransaction = {
+      description,
+      amount,
+      category,
+      paymentMethod,
+    };
 
-      setTransactions([...transactions, newTransaction]);
-      setDescription('');
-      setAmount('');
-      setCategory('Select your Category');
-    }
-    console.log(transactions)    
-  };
-
-  const handleTransactionCreated = async (newTransaction) => {
     try {
-        const response = await fetch("http://localhost:8001/api/clients/current/transactions", {
-            method: 'POST',
-            headers: {
-                ...headers,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newTransaction)
-        });
+      const response = await fetch("http://localhost:8001/api/clients/current/accounts", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTransaction),
+      });
 
-        if (response.ok) {
-            const createdTransaction = await response.json();
-            setTransactions([...transactions, createdTransaction]);
-        } else {
-            console.error("Error creating transaction");
-        }
+      if (response.ok) {
+        setDescription('');
+        setAmount('');
+        setCategory('Select your Category');
+        setPaymentMethod('Select your method');
+      } else {
+        console.error("Error creating transaction");
+      }
     } catch (error) {
-        console.error("Error creating transaction:", error);
+      console.error("Error creating transaction:", error);
     }
-};
+  };
 
   return (
     <>
