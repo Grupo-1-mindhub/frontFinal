@@ -128,6 +128,7 @@ export const AuthProvider = (props) => {
       avatar: '/assets/avatars/avatar-anika-visser.png',
       name: response2.data.firstName + " " + response2.data.lastName,
       email: response2.data.email,
+      token:token,
       accounts: response2.data.accounts,
       currentAccountId: response2.data.accounts[0] != null ? response2.data.accounts[0].id : 0
     };
