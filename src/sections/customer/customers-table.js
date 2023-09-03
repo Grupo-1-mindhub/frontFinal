@@ -61,24 +61,13 @@ export const CustomersTable = (props) => {
                 const isSelected = selected.includes(customer.id);
                 const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
 
+
                 return (
                   <TableRow
                     hover
                     key={customer.id}
                     selected={isSelected}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected}
-                        onChange={(event) => {
-                          if (event.target.checked) {
-                            onSelectOne?.(customer.id);
-                          } else {
-                            onDeselectOne?.(customer.id);
-                          }
-                        }}
-                      />
-                    </TableCell>
                     <TableCell>
                       <Stack
                         alignItems="center"

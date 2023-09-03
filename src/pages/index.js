@@ -5,7 +5,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { OverviewBudget } from 'src/sections/overview/overview-budget';
 import { OverviewLatestOrders } from 'src/sections/overview/overview-latest-orders';
 import { OverviewSales } from 'src/sections/overview/overview-sales';
-import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-customers';
+import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-transactions';
 import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 import { useAuth } from 'src/hooks/use-auth';
