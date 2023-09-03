@@ -18,7 +18,7 @@ export default function useSelect() {
     const handleChange = (event) => {
         const selectedAccountId = event.target.value;
         setAge(selectedAccountId);
-        setAccountId(selectedAccountId) // Actualiza el estado con el valor seleccionado
+        setAccountId(selectedAccountId)  //Actualiza el estado con el valor seleccionado
         user.currentAccountId = selectedAccountId;
         console.log(selectedAccountId);
     };
@@ -35,13 +35,15 @@ export default function useSelect() {
                 <Select
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
-                    value={age}
+                    value={age || (user.accounts.length > 0 ? user.accounts[0].id : "00")}
                     onChange={handleChange}
                     style={{ color: '#ffff' }}
                 >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
+                    {user.accounts.length == 0 &&
+                        <MenuItem value="00">
+                            <em>No account selected</em>
+                        </MenuItem>
+                    }
                     {user.accounts.map((account) => (
                         <MenuItem key={account.description} value={account.id}>
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -49,9 +51,6 @@ export default function useSelect() {
                                     {account.description}
                                 </Box>
                                 <Box>
-                                </Box>
-                                <Box>
-                                    ${account.balance}
                                 </Box>
                             </Box>
                         </MenuItem>
