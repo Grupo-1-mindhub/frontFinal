@@ -11,24 +11,6 @@ import {
   Unstable_Grid2 as Grid
 } from '@mui/material';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  },
-  {
-    value: 'los-angeles',
-    label: 'Los Angeles'
-  }
-];
 
 export const AccountProfileDetails = () => {
   const [values, setValues] = useState({
@@ -118,51 +100,18 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
-                  fullWidth
-                  label="Phone Number"
-                  name="phone"
-                  onChange={handleChange}
-                  type="number"
-                  value={values.phone}
-                />
+               
               </Grid>
               <Grid
                 xs={12}
                 md={6}
               >
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.country}
-                />
               </Grid>
               <Grid
                 xs={12}
                 md={6}
               >
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
+                
               </Grid>
             </Grid>
           </Box>
