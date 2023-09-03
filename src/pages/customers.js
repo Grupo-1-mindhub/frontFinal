@@ -173,6 +173,7 @@ const Page = () => {
       PaymentMethodId,
     };
 
+    console.log(transactionData)
     try {
       const response = await fetch("http://localhost:8001/api/clients/current/transactions", {
         method: 'POST',

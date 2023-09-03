@@ -174,9 +174,11 @@ export const AuthProvider = (props) => {
       email: response2.data.email,
       token: token,
       accounts: response2.data.accounts,
-      currentAccountId: user.currentAccountId
+      //Esto es por si se crea una cuenta por primera vez y se tira esta funcion para actualizar que tome el id de la unica cuenta del response2.data.accounts
+      //porque si no se trae el currentAccountId que al no tener cuenta es 0 y se rompe todo
+      currentAccountId: response2.data.accounts.length == 1 ? response2.data.accounts[0].id : user.currentAccountId
     });
-
+    
     dispatch({
       type: HANDLERS.UPDATE_USER,
       payload: user

@@ -79,11 +79,12 @@ export const SideNav = (props) => {
         setDescription();
         setBalance();
         handleCloseModal();
+        auth.getUpdatedUserInfo();
       } else {
-        console.error("Error creating transaction");
+        console.error("Error creating account");
       }
     } catch (error) {
-      console.error("Error creating transaction:", error);
+      console.error("Error creating account:", error);
     }
   };
 
