@@ -158,6 +158,31 @@ export const AuthProvider = (props) => {
     });
   };
 
+  const getUpdatedUserInfo = async () => {
+    const token = user.token
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+
+    const response2 = await axios.get("http://localhost:8001/api/clients/current", { headers })
+    console.log(response2)
+    setUser({
+      id: response2.data.id,
+      avatar: '/assets/avatars/avatar-anika-visser.png',
+      name: response2.data.firstName,
+      lastName: response2.data.lastName,
+      email: response2.data.email,
+      token: token,
+      accounts: response2.data.accounts,
+      currentAccountId: user.currentAccountId
+    });
+
+    dispatch({
+      type: HANDLERS.UPDATE_USER,
+      payload: user
+    });
+  }
+
   const signUp = async (name, lastName, email, password) => {
     axios.post('http://localhost:8001/api/Clients', {
       firstName: name,
@@ -186,7 +211,8 @@ export const AuthProvider = (props) => {
         setAccountId,
         updateUser,
         user,
-        setUser
+        setUser,
+        getUpdatedUserInfo
       }}
     >
       {children}
