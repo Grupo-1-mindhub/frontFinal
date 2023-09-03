@@ -19,14 +19,17 @@ import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 import UserSelect from 'src/components/selectUsers';
 import { useAuth } from 'src/hooks/use-auth';
-
+import { useAuthContext } from 'src/contexts/auth-context';
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
-  const auth = useAuth()
-  const user = auth.user
+  const { user, accountId } = useAuthContext();
+
+
+
+
 
   const handleUserChange = (event) => {
     const newValue = event.target.value;
@@ -71,18 +74,18 @@ export const SideNav = (props) => {
             <Logo />
           </Box>
           <Box>
-          <Typography
-                color="inherit"
-                variant="subtitle1"
-              >
-                {user.name}
-              </Typography>
-              <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                {user.email}
-              </Typography>
+            <Typography
+              color="inherit"
+              variant="subtitle1"
+            >
+              {user.name}
+            </Typography>
+            <Typography
+              color="neutral.400"
+              variant="body2"
+            >
+              {user.email}
+            </Typography>
           </Box>
           <Box
             sx={{
@@ -94,21 +97,22 @@ export const SideNav = (props) => {
               justifyContent: 'space-between',
               mt: 2,
               p: '12px',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              width: '100%'
             }}
           >
-   
-              <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                Current Account = {auth.user.currentAccountId}
-              </Typography>
-              <Box sx={ { width: '100%', display: 'flex', justifyContent: 'center' } }>
-                <UserSelect />
-              </Box>
-              
-            
+
+            <Typography
+              color="neutral.400"
+              variant="body2"
+            >
+              Current Account = {accountId}
+            </Typography>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <UserSelect />
+            </Box>
+
+
 
           </Box>
         </Box>

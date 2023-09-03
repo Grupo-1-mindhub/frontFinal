@@ -20,7 +20,7 @@ const Page = () => {
   const [BudgetData, setBudgetData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
   const [categoryLabels, setCategoryLabels] = useState([]);
-  const [TransactionsData, setTransactionData]= useState([]);
+  const [TransactionsData, setTransactionData] = useState([]);
   const auth = useAuth();
 
   useEffect(() => {
@@ -57,8 +57,8 @@ const Page = () => {
         setIncomeData([]);
       }
     }
-    async function fetchDataCategorys(){
-      
+    async function fetchDataCategorys() {
+
       try {
         const token = auth.user.token;
         const id=auth.user.currentAccountId;
@@ -77,12 +77,12 @@ const Page = () => {
           "TRANSPORT"
         ];
         const expenses = [];
-   
+
         for (let i = 0; i < 6; i++) {
           const transaction = groupedTransactions.find(trans => trans.category === i + 1);
           expenses[i] = transaction ? -transaction.amount : 0;
         }
-        
+
         const newData = categories.map((category, index) => ({
           name: category,
           value: expenses[index]
@@ -106,7 +106,7 @@ const Page = () => {
         setTransactionData(response.data);
 
       }
-      catch(error){
+      catch (error) {
         console.log(error);
         setTransactionData([]);
       }
@@ -117,10 +117,10 @@ const Page = () => {
     fetchTransactionsData();
   }, [auth.user.token,auth.user.currentAccountId]);
 
-  return(<>
+  return (<>
     <Head>
       <title>
-        Overview 
+        Overview
       </title>
     </Head>
     <Box
@@ -134,7 +134,7 @@ const Page = () => {
         <Grid
           container
           spacing={3}
-          sx={{width:'100%'}}
+          sx={{ width: '100%' }}
         >
           <Grid
             xs={12}
@@ -160,7 +160,7 @@ const Page = () => {
               value="1.6k" /*total de transacciones de esa cuenta */
             />
           </Grid>
-         
+
           <Grid
             xs={12}
             sm={6}
@@ -193,14 +193,14 @@ const Page = () => {
             xs={12}
             md={6}
             lg={4}
-            sx={{width:'100%'}}
+            sx={{ width: '100%' }}
           >
             <OverviewTraffic
               chartSeries={categoryData}
               labels={categoryLabels}
-              sx={{ 
+              sx={{
                 height: '100%',
-                maxWidth:'100%'
+                maxWidth: '100%'
               }}
             />
           </Grid>
@@ -218,7 +218,7 @@ const Page = () => {
       </Container>
     </Box>
   </>
-);
+  );
 }
 
 Page.getLayout = (page) => (
@@ -227,4 +227,4 @@ Page.getLayout = (page) => (
   </DashboardLayout>
 );
 
-export default Page;
+export default Page;
