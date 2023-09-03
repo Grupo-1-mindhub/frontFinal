@@ -5,6 +5,7 @@ import { withAuthGuard } from 'src/hocs/with-auth-guard';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
 
+
 const SIDE_NAV_WIDTH = 280;
 
 const LayoutRoot = styled('div')(({ theme }) => ({
@@ -27,6 +28,22 @@ export const Layout = withAuthGuard((props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
+/*
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+*/
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 450,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    borderRadius: 2,
+    p: 4,
+  };
 
   const handlePathnameChange = useCallback(
     () => {

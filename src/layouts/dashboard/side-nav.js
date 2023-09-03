@@ -106,9 +106,6 @@ export const SideNav = (props) => {
                 <span style={{ marginLeft: '5px' }}>Create new account</span>
               </Button>
             </Box>
-
-
-
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />

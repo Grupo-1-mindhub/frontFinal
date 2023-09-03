@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState,useEffect} from 'react';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { borderRadius, flexbox } from '@mui/system';
 import { useAuth } from 'src/hooks/use-auth';
 import { InputBase } from '@mui/material';
+import axios from 'axios';
 
 const now = new Date();
 
@@ -41,6 +42,7 @@ const useCustomerIds = (customers) => {
     [customers]
   );
 };
+
 
 const Page = () => {
   const [page, setPage] = useState(0);
@@ -66,14 +68,28 @@ const Page = () => {
     []
   );
 
+ /////////
+ async function fetchTransactionsData(id){
+  try{
+    const token = auth.user.token;
+    const id=auth.user.currentAccountId
+    const headers = {
+      'Authorization': `Bearer ${token}`
+    };
+    const response = await axios.get(`http://localhost:8001/api/clients/current/account/${id}/transactions`, { headers });
+    setTransactions(response.data);
+    console.log(response.data);
+  }
+  catch (error) {
+    console.log(error);
+    setTransactions([]);
+  }
+  }
+
+  useEffect(() => {fetchTransactionsData()},[])
+
   const { curretAccount, setCurretAccount } = useGastos()
 
-  const handleRowsPerPageChange = useCallback(
-    (event) => {
-      setRowsPerPage(event.target.value);
-    },
-    []
-  );
   const currencies = [
     {
       value: 1,
@@ -116,6 +132,8 @@ const Page = () => {
       label: 'Credit',
     }
   ];
+
+  //esto es del modal
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
@@ -164,6 +182,7 @@ const Page = () => {
         },
         body: JSON.stringify(transactionData)
       });
+      console.log(response);
       if (response.ok) {
         setNewTransaction(transactionData)
         console.log(transactionData)
@@ -179,9 +198,7 @@ const Page = () => {
       console.error("Error creating transaction:", error);
     }
   };
-  console.log(auth.user)
   
-
   return (
     <>
       <Head>
@@ -281,19 +298,9 @@ const Page = () => {
 </Modal>
               </div>
             </Stack>
-            <CustomersSearch />
             <CustomersTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              items={transactions}
+              categories={currencies}
             />
           </Stack>
         </Container>
