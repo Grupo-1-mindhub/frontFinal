@@ -6,7 +6,7 @@ import { OverviewBudget } from 'src/sections/overview/overview-budget';
 import { OverviewLatestOrders } from 'src/sections/overview/overview-latest-orders';
 import { OverviewSales } from 'src/sections/overview/overview-sales';
 import { OverviewTotalCustomers } from 'src/sections/overview/overview-total-transactions';
-import { OverviewTotalProfit } from 'src/sections/overview/overview-total-profit';
+
 import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 import { useAuth } from 'src/hooks/use-auth';
 import React, { useEffect, useState } from 'react';
@@ -143,8 +143,6 @@ const Page = () => {
             lg={3}
           >
             <OverviewBudget
-              difference={12}
-              positive
               sx={{ height: '100%' }}
               value={"$"+ currentAcc?.balance} /*El presupuesto que carga el usuario */
             />
@@ -154,24 +152,19 @@ const Page = () => {
             sm={6}
             lg={3}
           >
+
             <OverviewTotalCustomers
-              difference={16}
-              positive={false}
               sx={{ height: '100%' }}
-              value="1.6k" /*total de transacciones de esa cuenta */
+              value={currentAcc?.transactions.length} /*cantidad de transacciones en la current cuenta */
             />
           </Grid>
-
           <Grid
             xs={12}
             sm={6}
             lg={3}
           >
-            <OverviewTotalProfit
-              sx={{ height: '100%' }}
-              value="$15k"
-            />
           </Grid>
+
           <Grid
             xs={12}
             lg={8}
