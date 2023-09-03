@@ -17,6 +17,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { borderRadius, flexbox } from '@mui/system';
 import { useAuth } from 'src/hooks/use-auth';
+import { InputBase } from '@mui/material';
 
 const now = new Date();
 
@@ -51,11 +52,13 @@ const Page = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const auth = useAuth();
-  const [description, setDescription] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('Select your Category');
+  const [description, setDescription] = useState();
+  const [amount, setAmount] = useState();
+  const [PaymentMethodId, setPaymentMethodId] = useState();
+  const [CategoryId, setCategoryId] = useState();
   const [transactions, setTransactions] = useState([]);
-
+  const [newTransaction, setNewTransaction] = useState(null);
+  const [AccountId, setAccountId] = useState(1);
   const handlePageChange = useCallback(
     (event, value) => {
       setPage(value);
@@ -113,6 +116,20 @@ const Page = () => {
       label: 'Credit',
     }
   ];
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
+
+  const handleCategoryChange = (event) => {
+    setCategoryId(event.target.value);
+  };
+  const handlePaymentChange = (event) => {
+    setPaymentMethodId(event.target.value);
+  };
 
 
   const style = {
@@ -129,27 +146,31 @@ const Page = () => {
   };
   
   const handleCreate = async () => {
-    const newTransaction = {
+    const transactionData = {
+      AccountId,
       description,
       amount,
-      category,
-      paymentMethod,
+      CategoryId,
+      PaymentMethodId,
     };
 
     try {
-      const response = await fetch("http://localhost:8001/api/clients/current/accounts", {
+      const response = await fetch("http://localhost:8001/api/clients/current/transactions", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.user.token}`,
         },
-        body: JSON.stringify(newTransaction),
+        body: JSON.stringify(transactionData)
       });
-
       if (response.ok) {
-        setDescription('');
-        setAmount('');
-        setCategory('Select your Category');
-        setPaymentMethod('Select your method');
+        setNewTransaction(transactionData)
+        console.log(transactionData)
+        setDescription();
+        setAmount();
+        setCategoryId('Select your Category');
+        setPaymentMethodId('Select your method');
+        handleClose();
       } else {
         console.error("Error creating transaction");
       }
@@ -157,6 +178,8 @@ const Page = () => {
       console.error("Error creating transaction:", error);
     }
   };
+  console.log(auth.user)
+  
 
   return (
     <>
@@ -207,12 +230,16 @@ const Page = () => {
         label="Description"
         fullWidth
         margin="normal"
-      />
+        value={description}
+        onChange={handleDescriptionChange}
+      /> 
       <TextField
         id="outlined-basic"
         label="Amount"
         fullWidth       
         margin="normal"
+        value={amount}
+        onChange={handleAmountChange}
       />
       <TextField
         id="outlined-select-currency"
@@ -221,6 +248,8 @@ const Page = () => {
         defaultValue="Select your Category"
         fullWidth
         margin="normal"
+        value={CategoryId}
+        onChange={handleCategoryChange}
       >
         {currencies.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -235,6 +264,8 @@ const Page = () => {
         defaultValue="Select your method"
         fullWidth
         margin="normal"
+        value={PaymentMethodId}
+        onChange={handlePaymentChange}
       >
         {payment.map((option) => (
           <MenuItem key={option.value} value={option.value}>
