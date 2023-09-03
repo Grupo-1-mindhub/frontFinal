@@ -155,7 +155,7 @@ const Page = () => {
 
             <OverviewTotalCustomers
               sx={{ height: '100%' }}
-              value={"N°" + currentAcc?.transactions.length} /*cantidad de transacciones en la current cuenta */
+              value={currentAcc?.transactions.length} /*cantidad de transacciones en la current cuenta */
             />
           </Grid>
           <Grid
