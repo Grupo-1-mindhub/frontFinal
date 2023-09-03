@@ -9,7 +9,8 @@ import {
   Typography
 } from '@mui/material';
 
-const user = {
+
+const fruta = {
   avatar: '/assets/avatars/avatar-anika-visser.png',
   city: 'Los Angeles',
   country: 'USA',
@@ -18,7 +19,9 @@ const user = {
   timezone: 'GTM-7'
 };
 
-export const AccountProfile = () => (
+
+
+export const AccountProfile = ({user}) => (
   <Card>
     <CardContent>
       <Box
@@ -29,7 +32,7 @@ export const AccountProfile = () => (
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={fruta.avatar}
           sx={{
             height: 80,
             mb: 2,
