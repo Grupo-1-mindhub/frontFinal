@@ -28,6 +28,17 @@ export const SideNav = (props) => {
   const auth = useAuth()
   const user = auth.user
 
+  const handleUserChange = (event) => {
+    const newValue = event.target.value;
+    //auth.user.currentAccountId = newValue;
+    //console.log(auth.user.currentAccountId)
+    console.log(newValue)
+
+    // Puedes hacer lo que quieras con el valor seleccionado aquí
+  };
+
+
+
   const content = (
     <Scrollbar
       sx={{
@@ -82,23 +93,22 @@ export const SideNav = (props) => {
               display: 'flex',
               justifyContent: 'space-between',
               mt: 2,
-              p: '12px'
+              p: '12px',
+              flexDirection: 'column'
             }}
           >
-
-            <Typography
-              color="inherit"
-              variant="subtitle1"
-            >
-              Current Account
-            </Typography>
-            <Typography
-              color="neutral.400"
-              variant="body2"
-            >
-              <UserSelect />
-            </Typography>
-
+   
+              <Typography
+                color="neutral.400"
+                variant="body2"
+              >
+                Current Account = {auth.user.currentAccountId}
+              </Typography>
+              <Box sx={ { width: '100%', display: 'flex', justifyContent: 'center' } }>
+                <UserSelect />
+              </Box>
+              
+            
 
           </Box>
         </Box>
