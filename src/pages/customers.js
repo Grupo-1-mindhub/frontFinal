@@ -253,6 +253,7 @@ const Page = () => {
       /> 
       <TextField
         id="outlined-basic"
+        type="number"
         label="Amount"
         fullWidth       
         margin="normal"
