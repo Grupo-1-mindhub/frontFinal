@@ -19,13 +19,16 @@ import { items } from './config';
 import { SideNavItem } from './side-nav-item';
 import UserSelect from 'src/components/selectUsers';
 import { useAuth } from 'src/hooks/use-auth';
-
+import { useAuthContext } from 'src/contexts/auth-context';
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
-  const {user,accountId} = useAuth()
+  const { user, accountId } = useAuthContext();
+
+
+
 
 
   const handleUserChange = (event) => {

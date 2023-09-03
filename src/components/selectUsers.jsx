@@ -23,6 +23,8 @@ export default function useSelect() {
         console.log(selectedAccountId);
     };
 
+    console.log(user)
+
 
 
     return (

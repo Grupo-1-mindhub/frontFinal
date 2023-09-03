@@ -50,7 +50,7 @@ export const AccountProfileDetails = () => {
           lastName: values.lastName,
           email: values.email
         };
-        
+
         // Reemplaza la URL y el método HTTP según lo necesario (PUT o POST)
         const response = await axios.put(
           'http://localhost:8001/api/Clients/update',
@@ -61,6 +61,15 @@ export const AccountProfileDetails = () => {
         if (response.status === 200) {
           // La solicitud fue exitosa, puedes manejar la respuesta o redirigir al usuario si es necesario
           console.log('Datos actualizados con éxito');
+          console.log(updatedData)
+          console.log(updatedData)
+          auth.setUser((prevUser) => ({
+            ...prevUser,
+            name: updatedData.firstName,
+            lastName: updatedData.lastName,
+            email: updatedData.email
+          }));
+
         } else {
           console.error('Error al actualizar los datos');
         }

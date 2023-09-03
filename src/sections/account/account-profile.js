@@ -40,6 +40,7 @@ export const AccountProfile = () => (
           gutterBottom
           variant="h5"
         >
+
           {user.name}
         </Typography>
       </Box>
