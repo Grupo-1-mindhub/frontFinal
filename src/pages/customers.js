@@ -86,7 +86,7 @@ const Page = () => {
   }
   }
 
-  useEffect(() => {fetchTransactionsData()},[])
+  useEffect(() => {fetchTransactionsData()},[auth])
 
   const { curretAccount, setCurretAccount } = useGastos()
 
@@ -191,6 +191,8 @@ const Page = () => {
         setCategoryId('Select your Category');
         setPaymentMethodId('Select your method');
         handleClose();
+        //PARECE QUE FUNCIONA CON ESTA LINEA, NO SE SI ESTA BIEN
+        auth.getUpdatedUserInfo();
       } else {
         console.error("Error creating transaction");
       }
