@@ -20,27 +20,14 @@ import { SideNavItem } from './side-nav-item';
 import UserSelect from 'src/components/selectUsers';
 import { useAuth } from 'src/hooks/use-auth';
 import { useAuthContext } from 'src/contexts/auth-context';
+import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
+
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   const { user, accountId } = useAuthContext();
-
-
-
-
-
-  const handleUserChange = (event) => {
-    const newValue = event.target.value;
-    //auth.user.currentAccountId = newValue;
-    //console.log(auth.user.currentAccountId)
-    console.log(newValue)
-
-    // Puedes hacer lo que quieras con el valor seleccionado aquí
-  };
-
-
 
   const content = (
     <Scrollbar
@@ -106,10 +93,18 @@ export const SideNav = (props) => {
               color="neutral.400"
               variant="body2"
             >
-              Current Account = {accountId}
+              
+              {/* accountId = {accountId}      este guarda cualquier cosa no se porque */}
             </Typography>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              currentAccountId = {user.currentAccountId}
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
               <UserSelect />
+              <Button variant="contained" color="primary">
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                <span style={{ marginLeft: '5px' }}>Create new account</span>
+              </Button>
             </Box>
 
 

@@ -22,6 +22,7 @@ const Page = () => {
   const [categoryLabels, setCategoryLabels] = useState([]);
   const [TransactionsData, setTransactionData] = useState([]);
   const auth = useAuth();
+  const currentAcc = auth.user.accounts.find((acc) => acc.id === auth.user.currentAccountId)
 
   useEffect(() => {
     async function fetchData() {
@@ -145,7 +146,7 @@ const Page = () => {
               difference={12}
               positive
               sx={{ height: '100%' }}
-              value="$24k" /*El presupuesto que carga el usuario */
+              value={"$"+ currentAcc?.balance} /*El presupuesto que carga el usuario */
             />
           </Grid>
           <Grid

@@ -66,7 +66,7 @@ export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
-  const [accountId, setAccountId] = useState(1)
+  const [accountId, setAccountId] = useState(0)
   const [user, setUser] = useState()
 
   console.log(user)
