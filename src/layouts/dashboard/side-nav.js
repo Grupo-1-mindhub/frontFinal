@@ -65,7 +65,7 @@ export const SideNav = (props) => {
               color="inherit"
               variant="subtitle1"
             >
-              {user.name}
+              {user.name + " " + user.lastName}
             </Typography>
             <Typography
               color="neutral.400"
