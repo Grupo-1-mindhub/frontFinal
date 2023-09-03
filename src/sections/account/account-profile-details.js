@@ -10,16 +10,16 @@ import {
   TextField,
   Unstable_Grid2 as Grid
 } from '@mui/material';
+import axios from 'axios';
+import { useAuth } from 'src/hooks/use-auth';
 
 
 export const AccountProfileDetails = () => {
+  const auth = useAuth();
   const [values, setValues] = useState({
-    firstName: 'Anika',
-    lastName: 'Visser',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'los-angeles',
-    country: 'USA'
+    firstName: auth.user.name,
+    lastName: auth.user.lastName,
+    email: auth.user.email
   });
 
   const handleChange = useCallback(
