@@ -48,7 +48,7 @@ export const SideNav = (props) => {
           height: '100%'
         }}
       >
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 2 }}>
           <Box
             component={NextLink}
             href="/"
@@ -60,35 +60,40 @@ export const SideNav = (props) => {
           >
             <Logo />
           </Box>
+        </Box>
+          <Divider sx={{ borderColor: 'neutral.700' }} />
           <Box>
-            <Typography
-              color="inherit"
-              variant="subtitle1"
-            >
-              {user.name + " " + user.lastName}
-            </Typography>
-            <Typography
-              color="neutral.400"
-              variant="body2"
-            >
-              {user.email}
-            </Typography>
+            
+            
           </Box>
           <Box
             sx={{
               alignItems: 'center',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              backgroundColor: 'rgba(255, 255, 255, 0.00)',
               borderRadius: 1,
               cursor: 'pointer',
               display: 'flex',
               justifyContent: 'space-between',
-              mt: 2,
+              mt: 0,
               p: '12px',
               flexDirection: 'column',
               width: '100%'
             }}
           >
-
+            <Box sx = {{ backgroundColor: 'rgba(255, 255, 255, 0.04)', p: 3, borderRadius: 2, minWidth: '200px', textAlign: 'center' }}>
+              <Typography
+                color="inherit"
+                variant="subtitle1"
+              >
+                {user.name + " " + user.lastName}
+              </Typography>
+              <Typography
+                color="neutral.400"
+                variant="body2"
+              >
+                {user.email}
+              </Typography>
+            </Box>
             <Typography
               color="neutral.400"
               variant="body2"
@@ -96,7 +101,7 @@ export const SideNav = (props) => {
               
               {/* accountId = {accountId}      este guarda cualquier cosa no se porque */}
             </Typography>
-              currentAccountId = {user.currentAccountId}
+              <Box sx= {{ height: 20}} />
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
               <UserSelect />
               <Button variant="contained" color="primary">
@@ -107,7 +112,7 @@ export const SideNav = (props) => {
               </Button>
             </Box>
           </Box>
-        </Box>
+        
         <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
           component="nav"
@@ -154,7 +159,7 @@ export const SideNav = (props) => {
             color="neutral.100"
             variant="subtitle2"
           >
-            Accenture {/* aca poner el nombre del usuario registrado*/}
+            Expense Tracker{/* aca poner el nombre del usuario registrado*/}
           </Typography>
         </Box>
       </Box>
