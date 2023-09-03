@@ -67,6 +67,9 @@ export const AuthProvider = (props) => {
   const [accountId, setAccountId] = useState(1)
 
 
+  console.log(accountId)
+
+
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) {
@@ -126,9 +129,9 @@ export const AuthProvider = (props) => {
       id: response2.data.id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
       name: response2.data.firstName,
-      lastName:response2.data.lastName,
+      lastName: response2.data.lastName,
       email: response2.data.email,
-      token:token,
+      token: token,
       accounts: response2.data.accounts,
       currentAccountId: response2.data.accounts[0] != null ? response2.data.accounts[0].id : 0
     };
@@ -158,7 +161,6 @@ export const AuthProvider = (props) => {
   };
 
 
-  const [hola, setHola] = useState("hola ")
 
   return (
     <AuthContext.Provider
@@ -167,7 +169,8 @@ export const AuthProvider = (props) => {
         signIn,
         signUp,
         signOut,
-        hola
+        accountId,
+        setAccountId
       }}
     >
       {children}

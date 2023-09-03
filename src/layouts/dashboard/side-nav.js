@@ -27,6 +27,7 @@ export const SideNav = (props) => {
 
   const auth = useAuth()
   const user = auth.user
+  console.log(user)
 
   const handleUserChange = (event) => {
     const newValue = event.target.value;
@@ -94,21 +95,22 @@ export const SideNav = (props) => {
               justifyContent: 'space-between',
               mt: 2,
               p: '12px',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              width: '100%'
             }}
           >
-   
-              <Typography
-                color="neutral.400"
-                variant="body2"
-              >
-                Current Account = {auth.user.currentAccountId}
-              </Typography>
-              <Box sx={ { width: '100%', display: 'flex', justifyContent: 'center' } }>
-                <UserSelect />
-              </Box>
-              
-            
+
+            <Typography
+              color="neutral.400"
+              variant="body2"
+            >
+              Current Account = {auth.user.currentAccountId}
+            </Typography>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <UserSelect />
+            </Box>
+
+
 
           </Box>
         </Box>

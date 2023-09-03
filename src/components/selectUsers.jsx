@@ -6,25 +6,28 @@ import Select from '@mui/material/Select';
 import { Box } from '@mui/system';
 import { Divider } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 export default function useSelect() {
-    const auth = useAuth();
-    const [age, setAge] = React.useState('');
+    const { user, } = useAuth();
 
+
+
+    const [age, setAge] = useState("");
     const handleChange = (event) => {
-        //console.log(auth.user.currentAccountId)
-        setAge(event.target.value);
-        auth.user.currentAccountId = age;
-        console.log(age)
+        const selectedAccountId = event.target.value;
+        setAge(selectedAccountId); // Actualiza el estado con el valor seleccionado
+        user.currentAccountId = selectedAccountId;
+        console.log(selectedAccountId);
     };
 
 
+
     return (
-        
+
         <div>
-            <FormControl variant="filled" sx={{ m: 1, minWidth: '100%', textAlign: 'center' }}>
+            <FormControl variant="filled" sx={{ m: 1, minWidth: '200px', textAlign: 'center' }}>
                 <InputLabel id="demo-simple-select-filled-label" style={{ color: '#ffff' }}>Current Account</InputLabel>
                 <Select
                     labelId="demo-simple-select-filled-label"
@@ -36,9 +39,9 @@ export default function useSelect() {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    {auth.user.accounts.map((account) => (
+                    {user.accounts.map((account) => (
                         <MenuItem key={account.description} value={account.id}>
-                            <Box sx={{display:'flex',flexDirection:'column'}}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <Box>
                                     {account.description}
                                 </Box>
@@ -53,6 +56,6 @@ export default function useSelect() {
                 </Select>
             </FormControl>
         </div>
-        
+
     );
 }
