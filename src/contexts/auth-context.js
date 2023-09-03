@@ -14,6 +14,8 @@ const initialState = {
   user: null
 };
 
+
+
 const handlers = {
   [HANDLERS.INITIALIZE]: (state, action) => {
     const user = action.payload;
@@ -65,6 +67,9 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
   const [accountId, setAccountId] = useState(1)
+  const [user, setUser] = useState()
+
+  console.log(user)
 
 
   const initialize = async () => {
@@ -103,6 +108,16 @@ export const AuthProvider = (props) => {
     []
   );
 
+  const updateUser = (userData) => {
+    // Actualiza el estado del usuario en el contexto
+    dispatch({
+      type: HANDLERS.UPDATE_USER,
+      payload: userData
+    });
+  };
+
+
+
   const signIn = async (email, password) => {
 
     const response = await axios.post('http://localhost:8001/api/auth/login', {
@@ -122,18 +137,20 @@ export const AuthProvider = (props) => {
     };
     const response2 = await axios.get("http://localhost:8001/api/clients/current", { headers })
     console.log(response2)
-    const user = {
+    setUser({
       id: response2.data.id,
       avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: response2.data.firstName + " " + response2.data.lastName,
+      name: response2.data.firstName,
+      lastName: response2.data.lastName,
       email: response2.data.email,
-      token:token,
+      token: token,
       accounts: response2.data.accounts,
       currentAccountId: response2.data.accounts[0] != null ? response2.data.accounts[0].id : 0
-    };
+    });
+
 
     console.log("Se muestran accounts: ")
-    console.log(user)
+
 
     dispatch({
       type: HANDLERS.SIGN_IN,
@@ -157,7 +174,6 @@ export const AuthProvider = (props) => {
   };
 
 
-  const [hola, setHola] = useState("hola ")
 
   return (
     <AuthContext.Provider
@@ -166,7 +182,11 @@ export const AuthProvider = (props) => {
         signIn,
         signUp,
         signOut,
-        hola
+        accountId,
+        setAccountId,
+        updateUser,
+        user,
+        setUser
       }}
     >
       {children}

@@ -10,34 +10,15 @@ import {
   TextField,
   Unstable_Grid2 as Grid
 } from '@mui/material';
-
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  },
-  {
-    value: 'los-angeles',
-    label: 'Los Angeles'
-  }
-];
+import axios from 'axios';
+import { useAuth } from 'src/hooks/use-auth';
 
 export const AccountProfileDetails = () => {
+  const auth = useAuth();
   const [values, setValues] = useState({
-    firstName: 'Anika',
-    lastName: 'Visser',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'los-angeles',
-    country: 'USA'
+    firstName: auth.user.name,
+    lastName: auth.user.lastName,
+    email: auth.user.email
   });
 
   const handleChange = useCallback(
@@ -51,18 +32,56 @@ export const AccountProfileDetails = () => {
   );
 
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
+
+
+
       event.preventDefault();
+
+      try {
+        const token = auth.user.token;
+        const headers = {
+          Authorization: `Bearer ${token}`
+        };
+
+        // Los datos actualizados que se enviarán al servidor
+        const updatedData = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email
+        };
+
+        // Reemplaza la URL y el método HTTP según lo necesario (PUT o POST)
+        const response = await axios.put(
+          'http://localhost:8001/api/Clients/update',
+          updatedData,
+          { headers }
+        );
+
+        if (response.status === 200) {
+          // La solicitud fue exitosa, puedes manejar la respuesta o redirigir al usuario si es necesario
+          console.log('Datos actualizados con éxito');
+          console.log(updatedData)
+          console.log(updatedData)
+          auth.setUser((prevUser) => ({
+            ...prevUser,
+            name: updatedData.firstName,
+            lastName: updatedData.lastName,
+            email: updatedData.email
+          }));
+
+        } else {
+          console.error('Error al actualizar los datos');
+        }
+      } catch (error) {
+        console.error('Error al actualizar el usuario:', error);
+      }
     },
-    []
+    [auth.user.token, values]
   );
 
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      onSubmit={handleSubmit}
-    >
+    <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card>
         <CardHeader
           subheader="The information can be edited"
@@ -70,10 +89,8 @@ export const AccountProfileDetails = () => {
         />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
-            <Grid
-              container
-              spacing={3}
-            >
+            <Grid container spacing={3}>
+              {/* Tus campos de entrada de datos aquí */}
               <Grid
                 xs={12}
                 md={6}
@@ -114,62 +131,12 @@ export const AccountProfileDetails = () => {
                   value={values.email}
                 />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Phone Number"
-                  name="phone"
-                  onChange={handleChange}
-                  type="number"
-                  value={values.phone}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Country"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.country}
-                />
-              </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-              </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+          <Button variant="contained" type="submit">
             Save details
           </Button>
         </CardActions>
