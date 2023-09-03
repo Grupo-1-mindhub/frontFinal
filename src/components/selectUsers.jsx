@@ -19,8 +19,6 @@ export default function useSelect() {
         auth.user.currentAccountId = age;
         console.log(age)
     };
-    
-    auth.user.currentAccountId = 123
 
 
     return (
