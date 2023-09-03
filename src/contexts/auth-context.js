@@ -67,7 +67,6 @@ export const AuthProvider = (props) => {
   const [accountId, setAccountId] = useState(1)
 
 
-  console.log(accountId)
 
 
   const initialize = async () => {
@@ -138,6 +137,7 @@ export const AuthProvider = (props) => {
 
     console.log("Se muestran accounts: ")
     console.log(user)
+
 
     dispatch({
       type: HANDLERS.SIGN_IN,

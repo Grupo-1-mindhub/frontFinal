@@ -33,6 +33,9 @@ export const AccountProfileDetails = () => {
 
   const handleSubmit = useCallback(
     async (event) => {
+
+
+
       event.preventDefault();
 
       try {
@@ -47,7 +50,7 @@ export const AccountProfileDetails = () => {
           lastName: values.lastName,
           email: values.email
         };
-
+        
         // Reemplaza la URL y el método HTTP según lo necesario (PUT o POST)
         const response = await axios.put(
           'http://localhost:8001/api/Clients/update',

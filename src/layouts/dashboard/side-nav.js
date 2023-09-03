@@ -25,9 +25,8 @@ export const SideNav = (props) => {
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
-  const auth = useAuth()
-  const user = auth.user
-  console.log(user)
+  const {user,accountId} = useAuth()
+
 
   const handleUserChange = (event) => {
     const newValue = event.target.value;
@@ -104,7 +103,7 @@ export const SideNav = (props) => {
               color="neutral.400"
               variant="body2"
             >
-              Current Account = {auth.user.currentAccountId}
+              Current Account = {accountId}
             </Typography>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               <UserSelect />

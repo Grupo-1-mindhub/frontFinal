@@ -10,14 +10,15 @@ import { useEffect, useState } from 'react';
 
 
 export default function useSelect() {
-    const { user, } = useAuth();
+    const { user, setAccountId } = useAuth();
 
 
 
     const [age, setAge] = useState("");
     const handleChange = (event) => {
         const selectedAccountId = event.target.value;
-        setAge(selectedAccountId); // Actualiza el estado con el valor seleccionado
+        setAge(selectedAccountId);
+        setAccountId(selectedAccountId) // Actualiza el estado con el valor seleccionado
         user.currentAccountId = selectedAccountId;
         console.log(selectedAccountId);
     };
