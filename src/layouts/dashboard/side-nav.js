@@ -21,11 +21,72 @@ import UserSelect from 'src/components/selectUsers';
 import { useAuth } from 'src/hooks/use-auth';
 import { useAuthContext } from 'src/contexts/auth-context';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
+import React, { useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [description, setDescription] = useState();
+  const [balance, setBalance] = useState();
+  const [newAccount, setNewAccount] = useState();
+  const auth = useAuth();
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleBalanceChange = (event) => {
+    setBalance(event.target.value);
+  };
+
+  const handleCreate = async () => {
+    const clientId = auth.user.currentClientId
+    const accountData = {
+      ClientId: clientId,
+      description,
+      balance,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8001/api/clients/current/accounts", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.user.token}`,
+        },
+        body: JSON.stringify(accountData)
+      });
+      console.log(response);
+      if (response.ok) {
+        setNewAccount(accountData)
+        console.log(accountData)
+        setDescription();
+        setBalance();
+        handleCloseModal();
+      } else {
+        console.error("Error creating transaction");
+      }
+    } catch (error) {
+      console.error("Error creating transaction:", error);
+    }
+  };
+
 
   const { user, accountId } = useAuthContext();
 
@@ -88,6 +149,43 @@ export const SideNav = (props) => {
               width: '100%'
             }}
           >
+<Dialog PaperProps={{
+    sx: {
+      maxWidth: '400px',
+      borderRadius: '8px',
+    },
+  }}open={isModalOpen} onClose={handleCloseModal}>
+  <DialogTitle sx={{ background: 'primary.main', color: 'dark-grey' , textAlign: 'center', p: 2,}}>Create a New Account</DialogTitle>
+  <DialogContent>
+    <DialogContentText>
+      <TextField
+        id="outlined-basic"
+        label="Description"
+        fullWidth
+        margin="normal"
+        value={description}
+        onChange={handleDescriptionChange}
+      /> 
+        <TextField
+        id="outlined-basic"
+        type="number"
+        label="Balance"
+        fullWidth       
+        margin="normal"
+        value={balance}
+        onChange={handleBalanceChange}
+      />
+    </DialogContentText>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleCloseModal} color="primary" variant="outlined">
+      Cancel
+    </Button>
+    <Button onClick={handleCreate} color="primary" variant="contained">
+      Create
+    </Button>
+  </DialogActions>
+</Dialog>
 
             <Typography
               color="neutral.400"
@@ -99,7 +197,7 @@ export const SideNav = (props) => {
               currentAccountId = {user.currentAccountId}
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
               <UserSelect />
-              <Button variant="contained" color="primary">
+              <Button onClick={handleOpenModal} variant="contained" color="primary">
                     <SvgIcon fontSize="small">
                       <PlusIcon />
                     </SvgIcon>
