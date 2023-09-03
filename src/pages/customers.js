@@ -146,8 +146,9 @@ const Page = () => {
   };
 
   const handleCreate = async () => {
+    const accountId = auth.user.currentAccountId
     const transactionData = {
-      AccountId,
+      AccountId: accountId,
       description,
       amount,
       CategoryId,
